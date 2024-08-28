@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper'
 import { onboarding } from '@/constants'
 import CustomButton from '@/components/CustomButton'
 
-const Onboarding = () => {
+const Home = () => {
     const swiperRef = useRef<Swiper>(null)
     const [activeIndex, setActiveIndex] = useState(0)
     const isLastSlide = activeIndex === onboarding.length - 1
@@ -52,4 +52,4 @@ const Onboarding = () => {
     )
 }
 
-export default Onboarding
+export default Home 
