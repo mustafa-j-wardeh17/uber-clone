@@ -9,6 +9,19 @@ import 'react-native-reanimated';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+
+import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo'
+import { Slot } from 'expo-router'
+import { tokenCache } from '@/lib/auth';
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
+  )
+}
+
 export default function RootLayout() {
 
   const [loaded] = useFonts({
@@ -32,12 +45,19 @@ export default function RootLayout() {
   }
   return (
     <GestureHandlerRootView>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(root)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <ClerkProvider
+        publishableKey={publishableKey}
+        tokenCache={tokenCache}
+      >
+        <ClerkLoaded>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(root)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ClerkLoaded>
+      </ClerkProvider>
     </GestureHandlerRootView>
 
   );
