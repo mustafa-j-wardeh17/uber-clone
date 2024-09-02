@@ -5,7 +5,7 @@ import { icons, images } from '@/constants'
 import { useLocationStore } from '@/store'
 import { Ride } from '@/types/type'
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -121,8 +121,13 @@ export default function Page() {
 
   }
 
-  const handleDestinatipnPress = () => {
-
+  const handleDestinatipnPress = (location: {
+    latitude: number,
+    longitude: number,
+    address: string
+  }) => {
+    setDestinationLocation(location)
+    router.push('/(root)/find-ride')
   }
 
   useEffect(() => {
@@ -214,6 +219,13 @@ export default function Page() {
           </>
         )}
       />
+
+      <TouchableOpacity
+        className='w-[200px] h-[40px] mb-[100px] items-center justify-center rounded-xl bg-indigo-500'
+        onPress={() => router.push('/(root)/find-ride')}
+      >
+        <Text>Find ride</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

@@ -66,6 +66,8 @@ const Map = () => {
     })
 
     useEffect(() => {
+        //TODO: Remove after integrate with neon db
+        setDrivers(drivers)
         if (drivers.length > 0) {
             if (!userLatitude || !userLongitude) return
             const newMarkers = generateMarkersFromData({
